@@ -16,6 +16,9 @@ pub fn main() {
 
     match event::run(ctx, event_loop, state) {
         Ok(_) => (),
-        Err(e) => println!("Error occured: {}", e),
-    }
+        Err(e) => {
+            println!("Error occured: {}", e);
+            std::process::exit(1)
+        }
+    };
 }
