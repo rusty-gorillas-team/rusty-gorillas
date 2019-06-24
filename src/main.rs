@@ -1,4 +1,5 @@
-use ggez::*;
+use ggez::conf;
+use ggez::event;
 
 mod intro;
 

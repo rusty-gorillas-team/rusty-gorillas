@@ -1,7 +1,7 @@
+use ggez::event;
 use ggez::graphics;
 use ggez::nalgebra;
 use ggez::timer;
-use ggez::*;
 
 use rand::Rng;
 
@@ -14,7 +14,7 @@ pub struct State {
 }
 
 impl State {
-    pub fn new(ctx: &mut Context) -> GameResult<State> {
+    pub fn new(ctx: &mut ggez::Context) -> ggez::GameResult<State> {
         // Generate stars
         let mut rng = rand::thread_rng();
 
@@ -50,16 +50,17 @@ impl State {
 }
 
 impl event::EventHandler for State {
-    fn update(&mut self, ctx: &mut Context) -> GameResult<()> {
+    fn update(&mut self, ctx: &mut ggez::Context) -> ggez::GameResult<()> {
         // Delta time for hardware independent speed
         let delta = timer::delta(ctx);
-        let delta_millis = (delta.as_secs() as f64 + f64::from(delta.subsec_millis()) * 0.001) as f32; // TODO: Create helper function for it
+        let delta_millis =
+            (delta.as_secs() as f64 + f64::from(delta.subsec_millis()) * 0.001) as f32; // TODO: Create helper function for it
 
         self.vertigo_angle = self.vertigo_angle % 360.0 + 11.25 * delta_millis;
         Ok(())
     }
 
-    fn draw(&mut self, ctx: &mut Context) -> GameResult<()> {
+    fn draw(&mut self, ctx: &mut ggez::Context) -> ggez::GameResult<()> {
         // Background
         let background_color = graphics::Color::from_rgb(0, 0, 32);
         graphics::clear(ctx, background_color);
