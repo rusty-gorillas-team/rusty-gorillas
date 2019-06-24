@@ -6,6 +6,8 @@ use ggez::timer;
 use rand::Rng;
 
 pub struct State {
+    screen_center: nalgebra::Point2<f32>,
+
     vertigo_angle: f32,
 
     stars: graphics::Mesh,
@@ -29,7 +31,10 @@ impl State {
 
             mesh_builder.circle(
                 graphics::DrawMode::fill(),
-                nalgebra::Point2::new(rng.gen_range(0.0, 640.0), rng.gen_range(0.0, 640.0)),
+                nalgebra::Point2::new(
+                    rng.gen_range(0.0, ctx.conf.window_mode.width),
+                    rng.gen_range(0.0, ctx.conf.window_mode.width),
+                ),
                 rng.gen_range(0.0, 3.0),
                 1.0,
                 star_color,
@@ -37,9 +42,17 @@ impl State {
         }
 
         // Text initialization
-        let text = graphics::Text::new("Rusty Gorillas");
+        let mut text = graphics::Text::new("Rusty Gorillas");
+        text.set_bounds(
+            nalgebra::Point2::new(text.width(ctx) as f32, text.height(ctx) as f32),
+            graphics::Align::Center,
+        );        
 
         let s = State {
+            screen_center: nalgebra::Point2::new(
+                ctx.conf.window_mode.width / 2.0,
+                ctx.conf.window_mode.height / 2.0,
+            ),
             vertigo_angle: 0.0,
             stars: mesh_builder.build(ctx)?,
             title: text,
@@ -54,7 +67,7 @@ impl event::EventHandler for State {
         // Delta time for hardware independent speed
         let seconds_took_in_last_frame = timer::delta(ctx).as_millis() as f32 * 0.001;
 
-        self.vertigo_angle = self.vertigo_angle % 360.0 + 11.25 * seconds_took_in_last_frame;
+        self.vertigo_angle = self.vertigo_angle % 360.0 + seconds_took_in_last_frame;
         Ok(())
     }
 
@@ -67,21 +80,28 @@ impl event::EventHandler for State {
         let param = graphics::DrawParam::new()
             .dest(nalgebra::Point2::new(0.0, 0.0))
             .rotation(self.vertigo_angle.to_radians())
-            .offset(nalgebra::Point2::new(320.0, 320.0));
-            
+            .offset(self.screen_center);
 
         graphics::draw(ctx, &self.stars, param)?;
 
         // Text
+        let seconds_since_start = timer::time_since_start(ctx).as_millis() as f32 * 0.001;
+        let bouncing_angle = (seconds_since_start.sin() * 10.0).to_radians();
+
+        let text_width = self.title.width(ctx) as f32;
+        let text_height = self.title.height(ctx) as f32;
         graphics::queue_text(ctx, &self.title, nalgebra::Point2::new(0.0, 0.0), None);
 
-        let seconds_since_start = timer::time_since_start(ctx).as_millis() as f32 * 0.001;
-
-        let bouncing_angle = (seconds_since_start.sin() * 10.0).to_radians();
         let text_param = graphics::DrawParam::new()
-            .dest(nalgebra::Point2::new(320.0, 240.0))
+            .dest(nalgebra::Point2::new(
+                self.screen_center.x - text_width / 2.0,
+                self.screen_center.y - text_height / 2.0,
+            ))
             .rotation(bouncing_angle)
-            .offset(nalgebra::Point2::new(50.0, 5.0)); // TODO: Calculate text rectangle and align according to it
+            .offset(nalgebra::Point2::new(
+                text_width / 2.0,
+                text_height / 2.0,
+            ));
 
         graphics::draw_queued_text(ctx, text_param)?;
 
