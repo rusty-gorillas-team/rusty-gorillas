@@ -1,4 +1,3 @@
-extern crate ggez;
 use ggez::graphics;
 use ggez::nalgebra;
 use ggez::timer;

@@ -1,4 +1,3 @@
-extern crate ggez;
 use ggez::*;
 
 mod intro;
