@@ -46,7 +46,7 @@ impl State {
         text.set_bounds(
             nalgebra::Point2::new(text.width(ctx) as f32, text.height(ctx) as f32),
             graphics::Align::Center,
-        );        
+        );
 
         let s = State {
             screen_center: nalgebra::Point2::new(
@@ -98,14 +98,16 @@ impl event::EventHandler for State {
                 self.screen_center.y - text_height / 2.0,
             ))
             .rotation(bouncing_angle)
-            .offset(nalgebra::Point2::new(
-                text_width / 2.0,
-                text_height / 2.0,
-            ));
+            .offset(nalgebra::Point2::new(text_width / 2.0, text_height / 2.0));
 
         graphics::draw_queued_text(ctx, text_param)?;
 
-        graphics::present(ctx)?;
+        match graphics::present(ctx) {
+            Ok(_) => (),
+            Err(e) => {
+                println!("Failed to render intro screen via graphics::present: {}", e);
+            }
+        };
 
         Ok(())
     }
