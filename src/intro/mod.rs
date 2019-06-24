@@ -52,11 +52,9 @@ impl State {
 impl event::EventHandler for State {
     fn update(&mut self, ctx: &mut ggez::Context) -> ggez::GameResult<()> {
         // Delta time for hardware independent speed
-        let delta = timer::delta(ctx);
-        let delta_millis =
-            (delta.as_secs() as f64 + f64::from(delta.subsec_millis()) * 0.001) as f32; // TODO: Create helper function for it
+        let seconds_took_in_last_frame = timer::delta(ctx).as_millis() as f32 * 0.001;
 
-        self.vertigo_angle = self.vertigo_angle % 360.0 + 11.25 * delta_millis;
+        self.vertigo_angle = self.vertigo_angle % 360.0 + 11.25 * seconds_took_in_last_frame;
         Ok(())
     }
 
@@ -69,22 +67,20 @@ impl event::EventHandler for State {
         let param = graphics::DrawParam::new()
             .dest(nalgebra::Point2::new(0.0, 0.0))
             .rotation(self.vertigo_angle.to_radians())
-            .offset(nalgebra::Point2::new(320.0, 320.0))
-            .scale(nalgebra::Vector2::new(1.0, 1.0));
+            .offset(nalgebra::Point2::new(320.0, 320.0));
+            
 
         graphics::draw(ctx, &self.stars, param)?;
 
         // Text
         graphics::queue_text(ctx, &self.title, nalgebra::Point2::new(0.0, 0.0), None);
 
-        let duration_from_start = timer::time_since_start(ctx);
-        let time_from_start_millis = duration_from_start.as_secs() as f64
-            + f64::from(duration_from_start.subsec_millis()) * 0.001;
+        let seconds_since_start = timer::time_since_start(ctx).as_millis() as f32 * 0.001;
 
-        let bouncing_angle = (time_from_start_millis.sin() * 10.0).to_radians();
+        let bouncing_angle = (seconds_since_start.sin() * 10.0).to_radians();
         let text_param = graphics::DrawParam::new()
             .dest(nalgebra::Point2::new(320.0, 240.0))
-            .rotation(bouncing_angle as f32)
+            .rotation(bouncing_angle)
             .offset(nalgebra::Point2::new(50.0, 5.0)); // TODO: Calculate text rectangle and align according to it
 
         graphics::draw_queued_text(ctx, text_param)?;
