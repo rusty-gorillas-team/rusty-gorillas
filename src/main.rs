@@ -3,7 +3,6 @@ use ggez::*;
 
 mod intro;
 
-
 pub fn main() {
     let mut cfg = conf::Conf::new(); // TODO: Load from configuration file
     cfg.window_setup.title = "Rusty Gorillas".to_string();
@@ -12,11 +11,11 @@ pub fn main() {
 
     let context_builder = ggez::ContextBuilder::new("super_simple", "ggez").conf(cfg);
     let (ctx, event_loop) = &mut context_builder.build().unwrap();
-    
+
     let state = &mut intro::State::new(ctx).unwrap();
 
     match event::run(ctx, event_loop, state) {
         Ok(_) => (),
-        Err(e) => println!("Error occured: {}", e)
+        Err(e) => println!("Error occured: {}", e),
     }
 }
