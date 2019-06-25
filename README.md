@@ -1,4 +1,5 @@
 # Rusty Gorillas
+[![Build Status](https://travis-ci.com/rusty-gorillas-team/rusty-gorillas.svg?branch=master)](https://travis-ci.com/rusty-gorillas-team/rusty-gorillas)
 
 _Educational project_ - modernised Gorillas game written in Rust.
 
