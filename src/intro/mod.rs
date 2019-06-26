@@ -103,7 +103,7 @@ impl event::EventHandler for State {
             Ok(_) => (),
             Err(e) => {
                 eprintln!("Failed to render intro screen via graphics::present: {}", e);
-                return Err(e)
+                return Err(e);
             }
         };
 
