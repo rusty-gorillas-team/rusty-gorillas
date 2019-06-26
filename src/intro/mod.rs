@@ -102,7 +102,8 @@ impl event::EventHandler for State {
         match graphics::present(ctx) {
             Ok(_) => (),
             Err(e) => {
-                println!("Failed to render intro screen via graphics::present: {}", e);
+                eprintln!("Failed to render intro screen via graphics::present: {}", e);
+                return Err(e)
             }
         };
 
