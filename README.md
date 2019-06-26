@@ -1,4 +1,5 @@
 # Rusty Gorillas
+[![Build Status](https://travis-ci.com/rusty-gorillas-team/rusty-gorillas.svg?branch=master)](https://travis-ci.com/rusty-gorillas-team/rusty-gorillas)
 
 _Educational project_ - modernised Gorillas game written in Rust.
 
@@ -12,8 +13,14 @@ The project is designed to run with the latest **stable Rust**.
 
 ## Contribution guidelines
 
-The work on the project is organised via GitHub Issues.
+In order to keep the code style uniform, we use `rustfmt` and `clippy`. You can install them like:
+- `rustup component add rustfmt-preview`
+- `rustup component add clippy-preview`
+
+The work on the project is organised via [GitHub Issues](https://github.com/rusty-gorillas-team/rusty-gorillas/issues).
 
 Please create a separate branch for each issue.
 
-Once ready, create Pull request and ask other team member for code review.
+Once ready:
+- please run `cargo fmt` and `cargo clippy` and resolve any formal issues it might discover
+- create Pull request and ask other team member for code review

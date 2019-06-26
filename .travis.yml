@@ -1,0 +1,23 @@
+language: rust
+cache: cargo
+os:
+    - linux
+    - osx
+
+before_script:
+    - if [ $TRAVIS_OS_NAME = linux ]; then sudo apt-get install libegl1-mesa-dev; sudo apt-get install libgles2-mesa-dev; sudo apt-get install libsdl2-dev; fi
+    - |
+      (travis_wait rustup component add rustfmt-preview || true) &&
+      (travis_wait rustup component add clippy-preview || true)
+script:
+    - |
+      export PATH="$PATH":~/.cargo/bin &&
+      export RUST_BACKTRACE=1 &&
+      export CARGO_INCREMENTAL=1 &&
+      cargo build &&
+      cargo test --release &&
+      cargo test --release -- --ignored &&
+      cargo doc --no-deps &&
+      cargo test --all --release --benches &&
+      cargo clippy --all --tests -- --deny clippy::all &&
+      cargo fmt --all -- --check
