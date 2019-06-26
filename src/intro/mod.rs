@@ -1,7 +1,4 @@
-use ggez::event;
-use ggez::graphics;
-use ggez::nalgebra;
-use ggez::timer;
+use ggez::{event, graphics, nalgebra, timer};
 
 use rand::Rng;
 
