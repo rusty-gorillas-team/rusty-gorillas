@@ -22,7 +22,7 @@ impl State {
 
         let mut mesh_builder = graphics::MeshBuilder::new();
 
-        for _ in 1..=320 {
+        for _ in 0..320 {
             let star_color = graphics::Color::from_rgb(
                 rng.gen_range(0, 10),
                 rng.gen_range(10, 50),
