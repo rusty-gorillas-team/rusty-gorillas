@@ -70,7 +70,7 @@ impl State {
             ),
             vertigo_angle: 0.0,
             stars: mesh_builder.build(ctx)?,
-            city_colliders: city_colliders,
+            city_colliders,
             title: text,
         };
 

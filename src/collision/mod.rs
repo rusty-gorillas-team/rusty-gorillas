@@ -7,7 +7,7 @@ pub struct BoundingRectangle {
 }
 
 fn is_between(value: f32, minimum: f32, maximum: f32) -> bool {
-    return value >= minimum && value <= maximum;
+    value >= minimum && value <= maximum
 }
 
 impl BoundingRectangle {
@@ -18,7 +18,7 @@ impl BoundingRectangle {
         let y_between = is_between(self.y, another.y, another.y + another.height)
             || is_between(another.y, self.y, self.y + self.height);
 
-        return x_between && y_between;
+        x_between && y_between
     }
 }
 
