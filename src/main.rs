@@ -1,5 +1,6 @@
 use ggez::{conf, event};
 
+mod collision;
 mod intro;
 
 pub fn main() {
