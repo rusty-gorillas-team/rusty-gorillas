@@ -89,6 +89,6 @@ fn collides_with_returns_false_for_non_overlapped_rectangles() {
         height: 40.0,
     };
 
-    assert!(a.collides_with(&b) == false);
-    assert!(b.collides_with(&a) == false);
+    assert!(!a.collides_with(&b));
+    assert!(!b.collides_with(&a));
 }
