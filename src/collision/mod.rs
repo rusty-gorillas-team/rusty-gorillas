@@ -1,9 +1,9 @@
 pub struct BoundingRectangle {
-    x: f32,
-    y: f32,
+    pub x: f32,
+    pub y: f32,
 
-    width: f32,
-    height: f32,
+    pub width: f32,
+    pub height: f32,
 }
 
 fn is_between(value: f32, minimum: f32, maximum: f32) -> bool {
@@ -11,33 +11,19 @@ fn is_between(value: f32, minimum: f32, maximum: f32) -> bool {
 }
 
 impl BoundingRectangle {
-    pub fn collides_with(&self, another_rectangle: &BoundingRectangle) -> bool {
-        let x_between = is_between(
-            self.x,
-            another_rectangle.x,
-            &another_rectangle.x + &another_rectangle.width,
-        ) || is_between(
-            another_rectangle.x,
-            self.x,
-            self.x + &another_rectangle.width,
-        );
+    pub fn collides_with(&self, another: &BoundingRectangle) -> bool {
+        let x_between = is_between(self.x, another.x, another.x + another.width)
+            || is_between(another.x, self.x, self.x + self.width);
 
-        let y_between = is_between(
-            self.y,
-            another_rectangle.y,
-            &another_rectangle.y + &another_rectangle.height,
-        ) || is_between(
-            another_rectangle.y,
-            self.y,
-            self.y + &another_rectangle.height,
-        );
+        let y_between = is_between(self.y, another.y, another.y + another.height)
+            || is_between(another.y, self.y, self.y + self.height);
 
         return x_between && y_between;
     }
 }
 
 #[test]
-fn collides_with_each_other() {
+fn collides_with_returns_true_for_typical_cases() {
     let main = BoundingRectangle {
         x: -5.0,
         y: -10.0,
@@ -75,7 +61,6 @@ fn collides_with_each_other() {
         height: 20.0,
     };
 
-
     assert!(main.collides_with(&a));
     assert!(main.collides_with(&b));
     assert!(main.collides_with(&c));
@@ -90,7 +75,7 @@ fn collides_with_each_other() {
 }
 
 #[test]
-fn collides_with_false_for_non_colliding() {
+fn collides_with_returns_false_for_non_overlapped_rectangles() {
     let a = BoundingRectangle {
         x: 0.0,
         y: 0.0,
