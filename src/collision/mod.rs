@@ -22,73 +22,80 @@ impl BoundingRectangle {
     }
 }
 
-#[test]
-fn collides_with_returns_true_for_typical_cases() {
-    let main = BoundingRectangle {
-        x: -5.0,
-        y: -10.0,
-        width: 10.0,
-        height: 20.0,
-    };
-    let a = BoundingRectangle {
-        x: -10.0,
-        y: 0.0,
-        width: 10.0,
-        height: 10.0,
-    };
-    let b = BoundingRectangle {
-        x: 0.0,
-        y: 0.0,
-        width: 10.0,
-        height: 10.0,
-    };
-    let c = BoundingRectangle {
-        x: -10.0,
-        y: -10.0,
-        width: 10.0,
-        height: 10.0,
-    };
-    let d = BoundingRectangle {
-        x: 0.0,
-        y: -10.0,
-        width: 10.0,
-        height: 10.0,
-    };
-    let e = BoundingRectangle {
-        x: -5.0,
-        y: -10.0,
-        width: 10.0,
-        height: 20.0,
-    };
+#[cfg(test)]
+mod tests {
 
-    assert!(main.collides_with(&a));
-    assert!(main.collides_with(&b));
-    assert!(main.collides_with(&c));
-    assert!(main.collides_with(&d));
-    assert!(main.collides_with(&e));
+    use super::*;
 
-    assert!(a.collides_with(&main));
-    assert!(b.collides_with(&main));
-    assert!(c.collides_with(&main));
-    assert!(d.collides_with(&main));
-    assert!(e.collides_with(&main));
-}
+    #[test]
+    fn collides_with_returns_true_for_typical_cases() {
+        let main = BoundingRectangle {
+            x: -5.0,
+            y: -10.0,
+            width: 10.0,
+            height: 20.0,
+        };
+        let a = BoundingRectangle {
+            x: -10.0,
+            y: 0.0,
+            width: 10.0,
+            height: 10.0,
+        };
+        let b = BoundingRectangle {
+            x: 0.0,
+            y: 0.0,
+            width: 10.0,
+            height: 10.0,
+        };
+        let c = BoundingRectangle {
+            x: -10.0,
+            y: -10.0,
+            width: 10.0,
+            height: 10.0,
+        };
+        let d = BoundingRectangle {
+            x: 0.0,
+            y: -10.0,
+            width: 10.0,
+            height: 10.0,
+        };
+        let e = BoundingRectangle {
+            x: -5.0,
+            y: -10.0,
+            width: 10.0,
+            height: 20.0,
+        };
 
-#[test]
-fn collides_with_returns_false_for_non_overlapped_rectangles() {
-    let a = BoundingRectangle {
-        x: 0.0,
-        y: 0.0,
-        width: 10.0,
-        height: 20.0,
-    };
-    let b = BoundingRectangle {
-        x: 50.0,
-        y: 50.0,
-        width: 30.0,
-        height: 40.0,
-    };
+        assert!(main.collides_with(&a));
+        assert!(main.collides_with(&b));
+        assert!(main.collides_with(&c));
+        assert!(main.collides_with(&d));
+        assert!(main.collides_with(&e));
 
-    assert!(!a.collides_with(&b));
-    assert!(!b.collides_with(&a));
+        assert!(a.collides_with(&main));
+        assert!(b.collides_with(&main));
+        assert!(c.collides_with(&main));
+        assert!(d.collides_with(&main));
+        assert!(e.collides_with(&main));
+    }
+
+    #[test]
+    fn collides_with_returns_false_for_non_overlapped_rectangles() {
+        let a = BoundingRectangle {
+            x: 0.0,
+            y: 0.0,
+            width: 10.0,
+            height: 20.0,
+        };
+        let b = BoundingRectangle {
+            x: 50.0,
+            y: 50.0,
+            width: 30.0,
+            height: 40.0,
+        };
+
+        assert!(!a.collides_with(&b));
+        assert!(!b.collides_with(&a));
+    }
+
 }
