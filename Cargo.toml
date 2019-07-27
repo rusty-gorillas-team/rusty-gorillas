@@ -5,5 +5,5 @@ authors = ["Rusty Gorillas Team"]
 edition = "2018"
 
 [dependencies]
-ggez = "0.5.0-rc.2"
+ggez = "~0.5"
 rand = "~0.6"
