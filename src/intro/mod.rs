@@ -19,6 +19,8 @@ impl State {
 
         let mut mesh_builder = graphics::MeshBuilder::new();
 
+        let (window_width, window_height) = graphics::drawable_size(ctx);
+
         for _ in 0..320 {
             let star_color = graphics::Color::from_rgb(
                 rng.gen_range(0, 10),
@@ -29,8 +31,8 @@ impl State {
             mesh_builder.circle(
                 graphics::DrawMode::fill(),
                 nalgebra::Point2::new(
-                    rng.gen_range(0.0, ctx.conf.window_mode.width),
-                    rng.gen_range(0.0, ctx.conf.window_mode.width),
+                    rng.gen_range(0.0, window_width),
+                    rng.gen_range(0.0, window_height),
                 ),
                 rng.gen_range(0.0, 3.0),
                 1.0,
@@ -46,10 +48,7 @@ impl State {
         );
 
         let s = State {
-            screen_center: nalgebra::Point2::new(
-                ctx.conf.window_mode.width / 2.0,
-                ctx.conf.window_mode.height / 2.0,
-            ),
+            screen_center: nalgebra::Point2::new(window_width / 2.0, window_height / 2.0),
             vertigo_angle: 0.0,
             stars: mesh_builder.build(ctx)?,
             title: text,
@@ -97,7 +96,7 @@ impl event::EventHandler for State {
             .rotation(bouncing_angle)
             .offset(nalgebra::Point2::new(text_width / 2.0, text_height / 2.0));
 
-        graphics::draw_queued_text(ctx, text_param)?;
+        graphics::draw_queued_text(ctx, text_param, None, graphics::FilterMode::Nearest)?;
 
         match graphics::present(ctx) {
             Ok(_) => (),
